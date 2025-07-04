@@ -1,0 +1,19 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    },
+    "files.exclude": {
+      "**/.next": true,
+      "**/node_modules": true
+    },
+    "typescript.format.enable": false,
+    "javascript.format.enable": false,
+    "tailwindCSS.experimental.classRegex": [
+      ["clsx\\(([^)]*)\\)", "'([^']*)'"],
+      ["cn\\(([^)]*)\\)", "'([^']*)'"]
+    ]
+  }
+  

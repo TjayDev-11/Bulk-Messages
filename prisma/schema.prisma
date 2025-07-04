@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String       @unique
+  password  String
+  credits   Float        @default(0.0)
+  planId    String?      @db.ObjectId
+  plan      Plan?        @relation(fields: [planId], references: [id])
+  messages  Message[]
+  transactions Transaction[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime?
+}
+
+model Message {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  to        String
+  message   String
+  status    String
+  sentAt    DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Transaction {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  checkoutId  String?   @unique
+  planId      String?  @db.ObjectId // Add this
+  amount      Float
+  type        String
+  status      String
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+  plan        Plan?    @relation(fields: [planId], references: [id]) // Add relation
+}
+
+
+model Plan {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  credits     Float
+  price       Float
+  duration    Int
+  users       User[]       @relation
+  transactions Transaction[] @relation // Add this to link to Transaction
+}
