@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Confetti from 'react-confetti';
+import { Suspense } from 'react';
 
 type Plan = {
   id: string;
@@ -30,8 +31,15 @@ type Plan = {
   price: number;
   duration: number;
 };
+export default function ConfirmRechargePage(){
+  return(
+    <Suspense fallback={<div>Loading payment details...</div>}>
+      <ConfirmPage />
+    </Suspense>
+  );
+}
 
-export default function ConfirmRechargePage() {
+ function ConfirmPage() {
   const { data: session } = useSession();
   const userId = session?.user?.id || '';
   const searchParams = useSearchParams();
