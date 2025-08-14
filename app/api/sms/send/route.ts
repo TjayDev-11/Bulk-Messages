@@ -43,9 +43,12 @@ export async function POST(req: NextRequest) {
     if (!user || user.credits < to.length) {
       return NextResponse.json({ error: 'Insufficient credits' }, { status: 400 });
     }
+    
+
 
     // Send SMS using Africa's Talking
     const response = await sms.send({ to, message });
+    console.log('AT Response:', response);
     const recipients = response.SMSMessageData.Recipients;
 
     // Save each sent message to DB
